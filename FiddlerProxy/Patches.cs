@@ -14,11 +14,11 @@ namespace FiddlerProxy
 
 		public static void Init(HarmonyLib.Harmony harmonyInstance)
 		{
-			harmonyInstance.Patch(typeof(HTTPRequest).GetMethod("Send"), prefix: GetPatch("Patch"));
+			harmonyInstance.Patch(typeof(HTTPRequest).GetMethod(nameof(HTTPRequest.Send)), prefix: GetPatch(nameof(Patches.SendPatch)));
 		}
 
 		[MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
-		private static void Patch(ref HTTPRequest __instance)
+		private static void SendPatch(ref HTTPRequest __instance)
 		{
 			__instance.Proxy = new HTTPProxy(new Il2CppSystem.Uri("http://127.0.0.1:8888/"));
 		}
